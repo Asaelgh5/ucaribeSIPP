@@ -15,8 +15,6 @@
               <Layout class="details">
                 <Column size="5" class="details-field">Matrícula:</Column>
                 <Column size="7">{{ studentModel.Number }}</Column>
-                <!--            <Column size="5" class="details-field">Nombre:</Column>-->
-                <!--            <Column size="7">{{ studentModel.Name }}</Column>-->
                 <Column size="5" class="details-field">Programa Educativo:</Column>
                 <Column size="7">{{ studentModel.Career }}</Column>
                 <Column size="5" class="details-field">Estatus:</Column>
@@ -32,10 +30,23 @@
       </Column>
     </Layout>
     <Layout align="center" style="margin-top: 48px;">
-      <Column size="10" class="students__card">
+      <Column size="10">
         <Box>
-          <div class="title">Historial de Prácticas Profesionales</div>
-          <Table :data="data" :columns="columns" style="margin-top: 24px;" />
+          <Layout align="center">
+            <Column size="6">
+              <div class="section-title">Opciones actuales</div>
+              <Table
+                :data="actualData"
+                :columns="actualColumns"
+                isHorizontal
+              />
+            </Column>
+          </Layout>
+
+          <hr style="margin-bottom: 16px; margin-top: 24px;" />
+
+          <div class="section-title">Historial de Prácticas Profesionales</div>
+          <Table :data="data" :columns="columns" />
         </Box>
       </Column>
     </Layout>
@@ -100,12 +111,46 @@ export default {
           title: 'Reportes',
         },
       ],
+      actualColumns: [
+        {
+          field: 'period',
+          title: 'Periodo',
+        },
+        {
+          field: 'company',
+          title: 'Empresa',
+        },
+        {
+          field: 'performanceArea',
+          title: 'Área de desempeño',
+        },
+      ],
+      actualData: [
+        {
+          period: '202003',
+          company: 'Peopleware Human Capital Platform',
+          performanceArea: 'OPERATIVO',
+          requestStatus: 'Aceptado',
+          planStatus: 'Aceptado',
+        },
+      ],
       data: [
         {
           practiceNumber: 1,
+          schoolPeriod: '202003',
+          subject: 'PIT0302 - Prácticas profesionales II',
+          performanceArea: 'OPERATIVO',
+          company: 'Peopleware.Team S De RL De CV',
+          requestStatus: 'Aceptado',
+          planStatus: 'Aceptado',
+          hoursDone: 0,
+          reportsUploaded: 0,
+        },
+        {
+          practiceNumber: 2,
           schoolPeriod: '201903',
           subject: 'PIT0302 - Prácticas profesionales I',
-          performanceArea: 'Operativo',
+          performanceArea: 'OPERATIVO',
           company: 'Universidad del Caribe',
           requestStatus: 'Aceptado',
           planStatus: 'Aceptado',
@@ -131,10 +176,11 @@ export default {
     padding-right: 16px;
   }
 
-  .title {
+  .section-title {
     color: #333;
     text-align: center;
     font-size: 21px;
+    margin-bottom: 16px;
   }
 
   .header {
@@ -149,10 +195,10 @@ export default {
     }
 
     img {
-      max-height: 132px;
+      max-height: 121px;
       border-radius: 50%;
       box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.06);
-      margin: 20px 30px;
+      margin: 6px 30px;
       transition: .4s;
     }
 

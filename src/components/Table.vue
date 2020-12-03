@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table class="table">
+    <table class="table" v-if="!isHorizontal">
       <thead class="table__head">
         <tr>
           <template v-for="(column, index) in columns">
@@ -11,12 +11,28 @@
       <tbody class="table__body">
         <template v-for="(item, index) in data">
           <tr :key="`item${index}`" class="table__row">
-            <td v-for="(column, indexColumn) in columns" :key="indexColumn">
-              <span>{{ item[column.field] }}</span>
+            <td v-for="(column, indexColumn) in columns" :key="indexColumn" :class="column.class">
+              <slot :name="column.slotName" v-bind:item="item"></slot>
+              <span v-html="getContent(column, item)" />
             </td>
           </tr>
         </template>
       </tbody>
+    </table>
+    <table class="horizontal-table" v-else>
+      <tr
+        v-for="(column, index) in columns"
+        :key="`title${index}`"
+      >
+        <th>{{ column.title }}</th>
+        <td
+          v-for="(item, itemIndex) in data"
+          :key="`item${itemIndex}`"
+        >
+          <slot :name="column.slotName" v-bind:item="item"></slot>
+          <span v-html="getContent(column, item)" />
+        </td>
+      </tr>
     </table>
   </div>
 </template>
@@ -33,23 +49,34 @@ export default {
       type: Array,
       default: () => [],
     },
+    isHorizontal: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {};
   },
   mounted() {},
-  methods: {},
+  methods: {
+    getContent(column, item) {
+      if (column.template) {
+        return column.template.apply(null, [item]);
+      }
+      return item[column.field];
+    },
+  },
   computed: {},
   watch: {},
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .table {
   width: 100%;
+  font-size: 12px;
   &__head {
     th {
-      font-size: 14px;
       color: rgb(14, 21, 59);
       line-height: 22px;
       font-weight: bold;
@@ -64,7 +91,6 @@ export default {
       td {
         color: #333333;
         padding: 4px 8px;
-        font-size: 14px;
         line-height: 22px;
         background-color: #fff;
         border: 1px solid rgb(35, 35, 35) !important;
@@ -72,6 +98,28 @@ export default {
     }
   }
   text-align: left;
+  border-spacing: 0;
+}
+.horizontal-table {
+  width: 100%;
+  font-size: 12px;
+  th {
+    color: rgb(14, 21, 59);
+    line-height: 22px;
+    font-weight: bold;
+    background-color: #fff;
+    border: 1px solid rgb(35, 35, 35);
+    text-align: right;
+    padding: 4px 12px;
+  }
+  td {
+    color: #333333;
+    padding: 4px 12px;
+    line-height: 22px;
+    background-color: #fff;
+    border: 1px solid rgb(35, 35, 35) !important;
+    text-align: left;
+  }
   border-spacing: 0;
 }
 </style>
