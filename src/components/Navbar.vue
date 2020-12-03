@@ -57,14 +57,12 @@ export default {
           routeName: 'projects',
         },
       ],
-      timeLimit: parseInt(process.env.APP_SESSION_TIME),
+      timeLimit: 30*60,
       timePassed: 0,
       timerInterval: null,
     };
   },
   mounted() {
-    console.log('time env');
-    console.log(process.env);
     if (this.isLoggedIn) {
       this.startTimer();
     }

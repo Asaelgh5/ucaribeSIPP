@@ -2,6 +2,7 @@
   <button
     @click="onClick"
     class="button"
+    :class="{ 'button__light': light }"
   >
     <span v-if="$slots.default">
       <slot />
@@ -12,6 +13,12 @@
 <script>
 export default {
   name: 'Button',
+  props: {
+    light: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {};
   },
@@ -42,6 +49,16 @@ export default {
   cursor: pointer;
   outline: none;
 
+  &__light {
+    padding: 0.4rem 2rem;
+    background-color: #eee;
+    color: rgb(12, 21, 58);
+    font-size: 14px;
+
+    &:hover {
+      background-color: #ccc;
+    }
+  }
 }
 
 @keyframes rotation {
