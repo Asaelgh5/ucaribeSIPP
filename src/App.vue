@@ -31,3 +31,26 @@ export default {
   margin-bottom: 32px;
 }
 </style>
+
+<style lang="scss">
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #a9a9a9;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #696969;
+}
+</style>
